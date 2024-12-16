@@ -105,14 +105,28 @@
         width: 400px;
         background: rgb(64, 92, 108);
       }
+
+      /* Branding at the bottom of the screen */
+      .branding {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        font-size: 1.1em;
+        color: #555;
+      }
+
+      .branding h2,
+      .branding h3 {
+        margin: 5px 0;
+      }
     </style>
   </head>
   <body>
     <!-- Centered content container -->
     <div class="center-container">
       <h1>Family Feud Buzzer</h1>
-      <h2>Southern Farm Bureau Life Insurance Company</h2>
-      <h3>Corporate Data and Analytics</h3>
       <div id="winner">Press the Space Bar or Click the Mouse!</div>
       <button id="resetBtn">Reset</button>
 
@@ -130,6 +144,12 @@
           >Press ENTER or Click RESET to Start Over</span
         >
       </div>
+    </div>
+
+    <!-- Branding at bottom -->
+    <div class="branding">
+      <h2>Southern Farm Bureau Life Insurance Company</h2>
+      <h3>Corporate Data and Analytics</h3>
     </div>
 
     <!-- Indicators for flashing -->
@@ -172,7 +192,6 @@
       function declareWinner(message, player) {
         winnerDisplay.textContent = message;
         // Start the beep sequence and flashing
-        // Once completed, we will wait 5 seconds before showing the reset button and instructions.
         playBeepSequence(5, player, function () {
           // After the beep sequence finishes, wait 5 seconds before showing reset
           resetTimeoutId = setTimeout(() => {
@@ -199,26 +218,16 @@
         }
       }
 
-      // Plays a sequence of beeps. Each beep:
-      // - Lasts 0.05 seconds
-      // - Followed by 0.05 seconds of silence (0.1 seconds total per beep)
-      // Flash logic:
-      // - Turn on flash at beep start
-      // - After 0.2 seconds, turn flash off for all but the last beep
-      // - The last beep leaves the flash on permanently
-      // After all beeps finish, call the callback.
       function playBeepSequence(count, player, callback) {
         if (count <= 0) {
-          // All beeps done, call the callback
           if (callback) callback();
           return;
         }
 
-        const beepDuration = 0.05; // 0.05 seconds per beep
-        const silenceAfterBeep = 0.05; // 0.05 seconds silence after beep
-        const flashDuration = 0.2; // flash on for 0.2 seconds
+        const beepDuration = 0.05;
+        const silenceAfterBeep = 0.05;
+        const flashDuration = 0.2;
 
-        // Create audio context for each beep
         const audioContext = new (window.AudioContext ||
           window.webkitAudioContext)();
         const oscillator = audioContext.createOscillator();
@@ -231,21 +240,17 @@
         oscillator.connect(gainNode);
         gainNode.connect(audioContext.destination);
 
-        // Turn on flash at the start of the beep
         flashIndicator(player, true);
 
         oscillator.start();
         oscillator.stop(audioContext.currentTime + beepDuration);
 
-        // If not the last beep, turn off the flash after flashDuration
-        // If it is the last beep, leave it on
         if (count > 1) {
           setTimeout(() => {
             flashIndicator(player, false);
           }, flashDuration * 1000);
         }
 
-        // Schedule the next beep
         setTimeout(() => {
           playBeepSequence(count - 1, player, callback);
         }, (beepDuration + silenceAfterBeep) * 1000);
