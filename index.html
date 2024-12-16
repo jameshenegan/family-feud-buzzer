@@ -71,8 +71,8 @@
     <button id="resetBtn" style="display: none">Reset</button>
 
     <div class="instructions">
-      Player 1: Press SPACE BAR (Left side)<br />
-      Player 2: Click LEFT MOUSE BUTTON (Right side)<br /><br />
+      Player 1 (Left side): Press SPACE BAR<br />
+      Player 2 (Right side): Click LEFT MOUSE BUTTON <br /><br />
       Press ENTER or Click RESET to Start Over
     </div>
 
@@ -86,6 +86,8 @@
       const resetBtn = document.getElementById("resetBtn");
       const player1Indicator = document.getElementById("player1-indicator");
       const player2Indicator = document.getElementById("player2-indicator");
+
+      let resetTimeoutId = null; // Store the timeout that shows the reset button
 
       document.addEventListener("keydown", function (e) {
         // Space for Player 1
@@ -112,9 +114,14 @@
 
       function declareWinner(message, player) {
         winnerDisplay.textContent = message;
-        resetBtn.style.display = "inline-block";
-        // Play 5 short beeps and handle flashing
-        playBeepSequence(5, player);
+        // Start the beep sequence and flashing
+        // Once completed, we will wait 5 seconds before showing the reset button.
+        playBeepSequence(5, player, function () {
+          // After the beep sequence finishes, wait 5 seconds before showing reset
+          resetTimeoutId = setTimeout(() => {
+            resetBtn.style.display = "inline-block";
+          }, 5000);
+        });
       }
 
       function resetGame() {
@@ -123,6 +130,12 @@
         resetBtn.style.display = "none";
         player1Indicator.style.opacity = "0";
         player2Indicator.style.opacity = "0";
+
+        // Clear the timeout if it's still pending
+        if (resetTimeoutId) {
+          clearTimeout(resetTimeoutId);
+          resetTimeoutId = null;
+        }
       }
 
       // Plays a sequence of beeps. Each beep:
@@ -132,8 +145,13 @@
       // - Turn on flash at beep start
       // - After 0.2 seconds, turn flash off for all but the last beep
       // - The last beep leaves the flash on permanently
-      function playBeepSequence(count, player) {
-        if (count <= 0) return;
+      // After all beeps finish, call the callback.
+      function playBeepSequence(count, player, callback) {
+        if (count <= 0) {
+          // All beeps done, call the callback
+          if (callback) callback();
+          return;
+        }
 
         const beepDuration = 0.05; // 0.05 seconds per beep
         const silenceAfterBeep = 0.05; // 0.05 seconds silence after beep
@@ -166,9 +184,9 @@
           }, flashDuration * 1000);
         }
 
-        // Schedule next beep after total of (beepDuration + silenceAfterBeep)
+        // Schedule the next beep
         setTimeout(() => {
-          playBeepSequence(count - 1, player);
+          playBeepSequence(count - 1, player, callback);
         }, (beepDuration + silenceAfterBeep) * 1000);
       }
 
