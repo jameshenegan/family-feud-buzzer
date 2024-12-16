@@ -77,7 +77,7 @@
       function declareWinner(message) {
         winnerDisplay.textContent = message;
         resetBtn.style.display = "inline-block";
-        playBeep();
+        playBeepSequence(5); // Play 5 short beeps
       }
 
       function resetGame() {
@@ -86,8 +86,14 @@
         resetBtn.style.display = "none";
       }
 
-      function playBeep() {
-        // Use the Web Audio API to generate a short beep
+      // Plays a sequence of beeps. Each beep lasts for 'beepDuration' seconds,
+      // and there is a short pause before the next beep starts.
+      function playBeepSequence(count) {
+        if (count <= 0) return;
+        const beepDuration = 0.05; // seconds
+        const silenceAfterBeep = 0.05; // seconds of silence after each beep
+
+        // Create the audio context for each beep
         const audioContext = new (window.AudioContext ||
           window.webkitAudioContext)();
         const oscillator = audioContext.createOscillator();
@@ -95,14 +101,18 @@
 
         oscillator.type = "sine";
         oscillator.frequency.value = 440; // A4 note
-        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); // volume
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
 
         oscillator.connect(gainNode);
         gainNode.connect(audioContext.destination);
 
         oscillator.start();
-        // Stop after 0.2 seconds
-        oscillator.stop(audioContext.currentTime + 0.2);
+        oscillator.stop(audioContext.currentTime + beepDuration);
+
+        // Schedule the next beep after the current one finishes plus the silence
+        setTimeout(() => {
+          playBeepSequence(count - 1);
+        }, (beepDuration + silenceAfterBeep) * 1000);
       }
     </script>
   </body>
