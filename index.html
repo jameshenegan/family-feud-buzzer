@@ -48,14 +48,14 @@
 
     <script>
       let hasWinner = false;
+      const winnerDisplay = document.getElementById("winner");
+      const resetBtn = document.getElementById("resetBtn");
 
       document.addEventListener("keydown", function (e) {
         // Space for Player 1
         if (!hasWinner && e.code === "Space") {
           hasWinner = true;
-          document.getElementById("winner").textContent =
-            "Player 1 Buzzed In First!";
-          document.getElementById("resetBtn").style.display = "inline-block";
+          declareWinner("Player 1 Buzzed In First!");
         }
 
         // Enter key to reset if there's already a winner
@@ -68,19 +68,41 @@
         // Left mouse button for Player 2
         if (!hasWinner && e.button === 0) {
           hasWinner = true;
-          document.getElementById("winner").textContent =
-            "Player 2 Buzzed In First!";
-          document.getElementById("resetBtn").style.display = "inline-block";
+          declareWinner("Player 2 Buzzed In First!");
         }
       });
 
-      document.getElementById("resetBtn").addEventListener("click", resetGame);
+      resetBtn.addEventListener("click", resetGame);
+
+      function declareWinner(message) {
+        winnerDisplay.textContent = message;
+        resetBtn.style.display = "inline-block";
+        playBeep();
+      }
 
       function resetGame() {
         hasWinner = false;
-        document.getElementById("winner").textContent =
-          "Press the Space Bar or Click the Mouse!";
-        document.getElementById("resetBtn").style.display = "none";
+        winnerDisplay.textContent = "Press the Space Bar or Click the Mouse!";
+        resetBtn.style.display = "none";
+      }
+
+      function playBeep() {
+        // Use the Web Audio API to generate a short beep
+        const audioContext = new (window.AudioContext ||
+          window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.type = "sine";
+        oscillator.frequency.value = 440; // A4 note
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); // volume
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.start();
+        // Stop after 0.2 seconds
+        oscillator.stop(audioContext.currentTime + 0.2);
       }
     </script>
   </body>
