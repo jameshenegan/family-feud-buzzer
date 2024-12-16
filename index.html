@@ -7,10 +7,28 @@
     <style>
       body {
         font-family: sans-serif;
-        text-align: center;
-        margin: 50px;
+        margin: 0;
+        padding: 0;
         position: relative;
         overflow: hidden;
+        height: 100vh; /* Make sure body takes full height */
+        background: #f8f8f8;
+      }
+
+      /* Center container that holds the text and instructions */
+      .center-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 2; /* Above the indicators */
+        background: white; /* Optional: gives a white background behind text */
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        max-width: 600px; /* Keep text from stretching too wide */
+        width: 90%; /* Responsive width */
       }
 
       h1 {
@@ -22,7 +40,6 @@
         font-size: 3em;
         margin: 40px 0;
         color: #333;
-        z-index: 2;
         position: relative;
       }
 
@@ -30,16 +47,15 @@
         padding: 10px 20px;
         font-size: 1em;
         cursor: pointer;
-        z-index: 2;
         position: relative;
         display: none;
+        margin-bottom: 20px;
       }
 
       .instructions {
         font-size: 1.2em;
         margin-top: 30px;
         color: #555;
-        z-index: 2;
         position: relative;
       }
 
@@ -47,9 +63,25 @@
         margin-bottom: 20px;
       }
 
+      /* Container for placing instructions side by side */
+      .instructions-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .player1-instructions {
+        text-align: left;
+      }
+
+      .player2-instructions {
+        text-align: right;
+      }
+
       #resetInstructions {
         display: none;
         font-weight: bold;
+        margin-top: 20px;
       }
 
       /* Indicators for Player 1 (left) and Player 2 (right) */
@@ -64,30 +96,40 @@
 
       #player1-indicator {
         left: 0;
-        width: 400px; /* Narrow bar on the left side */
+        width: 400px;
         background: red;
       }
 
       #player2-indicator {
         right: 0;
-        width: 400px; /* Narrow bar on the right side */
+        width: 400px;
         background: blue;
       }
     </style>
   </head>
   <body>
-    <h1>Family Feud Buzzer</h1>
-    <div id="winner">Press the Space Bar or Click the Mouse!</div>
-    <button id="resetBtn">Reset</button>
+    <!-- Centered content container -->
+    <div class="center-container">
+      <h1>Family Feud Buzzer</h1>
+      <div id="winner">Press the Space Bar or Click the Mouse!</div>
+      <button id="resetBtn">Reset</button>
 
-    <div class="instructions">
-      <div id="playerInstructions">
-        Player 1 (Left side): Press SPACE BAR<br />
-        Player 2 (Right side): Click LEFT MOUSE BUTTON<br /><br />
+      <div class="instructions">
+        <div id="playerInstructions">
+          <div class="instructions-container">
+            <div class="player1-instructions">
+              Player 1 (Left side): Press SPACE BAR
+            </div>
+            <div class="player2-instructions">
+              Player 2 (Right side): Click LEFT MOUSE BUTTON
+            </div>
+          </div>
+          <br />
+        </div>
+        <span id="resetInstructions"
+          >Press ENTER or Click RESET to Start Over</span
+        >
       </div>
-      <span id="resetInstructions"
-        >Press ENTER or Click RESET to Start Over</span
-      >
     </div>
 
     <!-- Indicators for flashing -->
