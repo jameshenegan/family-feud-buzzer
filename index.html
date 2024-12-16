@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Family Feud Buzzer</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+
+      #winner {
+        font-size: 3em;
+        margin: 40px 0;
+        color: #333;
+      }
+
+      #resetBtn {
+        padding: 10px 20px;
+        font-size: 1em;
+        cursor: pointer;
+      }
+
+      .instructions {
+        font-size: 1.2em;
+        margin-top: 30px;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Family Feud Buzzer</h1>
+    <div id="winner">Press the Space Bar or Click the Mouse!</div>
+    <button id="resetBtn" style="display: none">Reset</button>
+
+    <div class="instructions">
+      Player 1: Press SPACE BAR<br />
+      Player 2: Click LEFT MOUSE BUTTON
+    </div>
+
+    <script>
+      let hasWinner = false;
+
+      // Detect space bar press for Player 1
+      document.addEventListener("keydown", function (e) {
+        if (!hasWinner && e.code === "Space") {
+          hasWinner = true;
+          document.getElementById("winner").textContent =
+            "Player 1 Buzzed In First!";
+          document.getElementById("resetBtn").style.display = "inline-block";
+        }
+      });
+
+      // Detect mouse click for Player 2
+      document.addEventListener("mousedown", function (e) {
+        // e.button === 0 means left click
+        if (!hasWinner && e.button === 0) {
+          hasWinner = true;
+          document.getElementById("winner").textContent =
+            "Player 2 Buzzed In First!";
+          document.getElementById("resetBtn").style.display = "inline-block";
+        }
+      });
+
+      // Reset button functionality
+      document
+        .getElementById("resetBtn")
+        .addEventListener("click", function () {
+          hasWinner = false;
+          document.getElementById("winner").textContent =
+            "Press the Space Bar or Click the Mouse!";
+          this.style.display = "none";
+        });
+    </script>
+  </body>
+</html>
