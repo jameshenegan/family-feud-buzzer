@@ -17,8 +17,8 @@ After the beeps finish, there is a 5-second delay before the "Reset" button is s
   The interface displays instructions and a clear prompt indicating how each player can buzz in. When a winner is declared, the winning message and indicators appear.
 - **Visual Indicators:**  
   Each player has a colored bar representing their side of the screen (red for Player 1 and blue for Player 2). The winning player's bar will flash in time with the beeps.
-- **Company Branding and Easter Egg:**  
-  Company branding (e.g., "Southern Farm Bureau Life Insurance Company") is displayed at the bottom of the screen. The word "Friends" includes a tooltip; when hovered over, a small tooltip appears stating "Joe is not your friend."
+- **Easter Egg:**  
+  The word "Friends" includes a tooltip; when hovered over, a small tooltip appears stating "Joe is not your friend."
 
 ## How to Run
 
