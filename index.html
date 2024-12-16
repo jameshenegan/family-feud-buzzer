@@ -32,6 +32,7 @@
         cursor: pointer;
         z-index: 2;
         position: relative;
+        display: none;
       }
 
       .instructions {
@@ -40,6 +41,12 @@
         color: #555;
         z-index: 2;
         position: relative;
+      }
+
+      #resetInstructions {
+        display: none;
+        margin-top: 20px;
+        font-weight: bold;
       }
 
       /* Indicators for Player 1 (left) and Player 2 (right) */
@@ -68,12 +75,14 @@
   <body>
     <h1>Family Feud Buzzer</h1>
     <div id="winner">Press the Space Bar or Click the Mouse!</div>
-    <button id="resetBtn" style="display: none">Reset</button>
+    <button id="resetBtn">Reset</button>
 
     <div class="instructions">
       Player 1 (Left side): Press SPACE BAR<br />
       Player 2 (Right side): Click LEFT MOUSE BUTTON <br /><br />
-      Press ENTER or Click RESET to Start Over
+      <span id="resetInstructions"
+        >Press ENTER or Click RESET to Start Over</span
+      >
     </div>
 
     <!-- Indicators for flashing -->
@@ -82,12 +91,12 @@
 
     <script>
       let hasWinner = false;
+      let resetTimeoutId = null;
       const winnerDisplay = document.getElementById("winner");
       const resetBtn = document.getElementById("resetBtn");
       const player1Indicator = document.getElementById("player1-indicator");
       const player2Indicator = document.getElementById("player2-indicator");
-
-      let resetTimeoutId = null; // Store the timeout that shows the reset button
+      const resetInstructions = document.getElementById("resetInstructions");
 
       document.addEventListener("keydown", function (e) {
         // Space for Player 1
@@ -115,11 +124,12 @@
       function declareWinner(message, player) {
         winnerDisplay.textContent = message;
         // Start the beep sequence and flashing
-        // Once completed, we will wait 5 seconds before showing the reset button.
+        // Once completed, we will wait 5 seconds before showing the reset button and instructions.
         playBeepSequence(5, player, function () {
           // After the beep sequence finishes, wait 5 seconds before showing reset
           resetTimeoutId = setTimeout(() => {
             resetBtn.style.display = "inline-block";
+            resetInstructions.style.display = "block";
           }, 5000);
         });
       }
@@ -128,6 +138,7 @@
         hasWinner = false;
         winnerDisplay.textContent = "Press the Space Bar or Click the Mouse!";
         resetBtn.style.display = "none";
+        resetInstructions.style.display = "none"; // Hide instructions again
         player1Indicator.style.opacity = "0";
         player2Indicator.style.opacity = "0";
 
