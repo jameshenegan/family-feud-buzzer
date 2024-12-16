@@ -121,6 +121,41 @@
       .branding h3 {
         margin: 5px 0;
       }
+
+      /* Tooltip styling */
+      .tooltip-container {
+        display: inline-block;
+        position: relative;
+        color: rgb(144, 36, 52); /* Changed to a color already used (#333) */
+        cursor: pointer;
+        text-decoration: none; /* No underline */
+      }
+
+      .tooltip-container:hover {
+        /* Optional: slightly change color on hover if desired */
+        color: #333;
+      }
+
+      .tooltip-text {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #333;
+        color: #fff;
+        padding: 5px 8px;
+        border-radius: 4px;
+        font-size: 0.9em;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+
+      .tooltip-container:hover .tooltip-text {
+        opacity: 1;
+        pointer-events: auto;
+      }
     </style>
   </head>
   <body>
@@ -150,8 +185,14 @@
     <div class="branding">
       <h2>Southern Farm Bureau Life Insurance Company</h2>
       <h3>Corporate Data and Analytics</h3>
-      <h4>Your Friends for Life.*</h4>
-      <h5>Joe is not your friend.</h5>
+      <h4>
+        Your
+        <span class="tooltip-container">
+          Friends
+          <span class="tooltip-text">Joe is not your friend</span>
+        </span>
+        for Life.
+      </h4>
     </div>
 
     <!-- Indicators for flashing -->
