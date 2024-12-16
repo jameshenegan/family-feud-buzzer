@@ -42,25 +42,30 @@
 
     <div class="instructions">
       Player 1: Press SPACE BAR<br />
-      Player 2: Click LEFT MOUSE BUTTON
+      Player 2: Click LEFT MOUSE BUTTON<br /><br />
+      Press ENTER or Click RESET to Start Over
     </div>
 
     <script>
       let hasWinner = false;
 
-      // Detect space bar press for Player 1
       document.addEventListener("keydown", function (e) {
+        // Space for Player 1
         if (!hasWinner && e.code === "Space") {
           hasWinner = true;
           document.getElementById("winner").textContent =
             "Player 1 Buzzed In First!";
           document.getElementById("resetBtn").style.display = "inline-block";
         }
+
+        // Enter key to reset if there's already a winner
+        if (hasWinner && e.code === "Enter") {
+          resetGame();
+        }
       });
 
-      // Detect mouse click for Player 2
       document.addEventListener("mousedown", function (e) {
-        // e.button === 0 means left click
+        // Left mouse button for Player 2
         if (!hasWinner && e.button === 0) {
           hasWinner = true;
           document.getElementById("winner").textContent =
@@ -69,15 +74,14 @@
         }
       });
 
-      // Reset button functionality
-      document
-        .getElementById("resetBtn")
-        .addEventListener("click", function () {
-          hasWinner = false;
-          document.getElementById("winner").textContent =
-            "Press the Space Bar or Click the Mouse!";
-          this.style.display = "none";
-        });
+      document.getElementById("resetBtn").addEventListener("click", resetGame);
+
+      function resetGame() {
+        hasWinner = false;
+        document.getElementById("winner").textContent =
+          "Press the Space Bar or Click the Mouse!";
+        document.getElementById("resetBtn").style.display = "none";
+      }
     </script>
   </body>
 </html>
