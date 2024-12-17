@@ -12,23 +12,22 @@
         position: relative;
         overflow: hidden;
         height: 100vh; /* Make sure body takes full height */
-        background: #f8f8f8;
+        background: #f8f8f8 url("background.jpg") no-repeat center center;
+        background-size: cover;
       }
 
-      /* Center container that holds the text and instructions */
-      .center-container {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+      /* Container near the top for main instructions */
+      .top-container {
+        position: relative;
         text-align: center;
         z-index: 2; /* Above the indicators */
         background: white; /* Optional: gives a white background behind text */
         padding: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
-        max-width: 600px; /* Keep text from stretching too wide */
-        width: 90%; /* Responsive width */
+        max-width: 600px;
+        width: 90%;
+        margin: 20px auto; /* Center horizontally and move it down from top */
       }
 
       h1 {
@@ -63,7 +62,6 @@
         margin-bottom: 20px;
       }
 
-      /* Container for placing instructions side by side */
       .instructions-container {
         display: flex;
         justify-content: space-between;
@@ -106,8 +104,8 @@
         background: rgb(64, 92, 108);
       }
 
-      /* Branding at the bottom of the screen */
-      .branding {
+      /* Branding at the bottom of the screen, now in a "box" */
+      .branding-box {
         position: absolute;
         bottom: 20px;
         left: 50%;
@@ -115,10 +113,16 @@
         text-align: center;
         font-size: 1.1em;
         color: #555;
+        background: white;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        max-width: 600px;
+        width: 90%;
       }
 
-      .branding h2,
-      .branding h3 {
+      .branding-box h2,
+      .branding-box h3 {
         margin: 5px 0;
       }
 
@@ -126,13 +130,12 @@
       .tooltip-container {
         display: inline-block;
         position: relative;
-        color: rgb(144, 36, 52); /* Changed to a color already used (#333) */
+        color: rgb(144, 36, 52);
         cursor: pointer;
-        text-decoration: none; /* No underline */
+        text-decoration: none;
       }
 
       .tooltip-container:hover {
-        /* Optional: slightly change color on hover if desired */
         color: #333;
       }
 
@@ -159,8 +162,8 @@
     </style>
   </head>
   <body>
-    <!-- Centered content container -->
-    <div class="center-container">
+    <!-- Top container for instructions -->
+    <div class="top-container">
       <h1>Family Feud Buzzer</h1>
       <div id="winner">Buzz in when ready!</div>
       <button id="resetBtn">Reset</button>
@@ -181,15 +184,15 @@
       </div>
     </div>
 
-    <!-- Branding at bottom -->
-    <div class="branding">
+    <!-- Branding box at bottom -->
+    <div class="branding-box">
       <h2>Southern Farm Bureau Life Insurance Company</h2>
       <h3>Corporate Data and Analytics</h3>
       <h4>
         Your
         <span class="tooltip-container">
           Friends
-          <span class="tooltip-text">Joe is not your friend</span>
+          <span class="tooltip-text">DISCLAIMER: Joe is not your friend</span>
         </span>
         for Life.
       </h4>
@@ -240,7 +243,7 @@
           resetTimeoutId = setTimeout(() => {
             resetBtn.style.display = "inline-block";
             resetInstructions.style.display = "block";
-            playerInstructions.style.display = "none"; // Hide the player instructions
+            playerInstructions.style.display = "none";
           }, 5000);
         });
       }
@@ -249,8 +252,8 @@
         hasWinner = false;
         winnerDisplay.textContent = "Buzz in when ready!";
         resetBtn.style.display = "none";
-        resetInstructions.style.display = "none"; // Hide reset instructions again
-        playerInstructions.style.display = "block"; // Show player instructions again
+        resetInstructions.style.display = "none";
+        playerInstructions.style.display = "block";
         player1Indicator.style.opacity = "0";
         player2Indicator.style.opacity = "0";
 
