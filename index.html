@@ -11,7 +11,7 @@
         padding: 0;
         position: relative;
         overflow: hidden;
-        height: 100vh; /* Make sure body takes full height */
+        height: 100vh;
         background: #f8f8f8 url("background.jpg") no-repeat center center;
         background-size: cover;
       }
@@ -20,14 +20,18 @@
       .top-container {
         position: relative;
         text-align: center;
-        z-index: 2; /* Above the indicators */
-        background: white; /* Optional: gives a white background behind text */
+        z-index: 2;
+        /* Semi-transparent background to allow blur */
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+
         padding: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
         max-width: 600px;
         width: 90%;
-        margin: 20px auto; /* Center horizontally and move it down from top */
+        margin: 20px auto;
       }
 
       h1 {
@@ -88,7 +92,7 @@
         position: fixed;
         top: 0;
         height: 100vh;
-        opacity: 0; /* Initially invisible */
+        opacity: 0;
         z-index: 1;
       }
 
@@ -104,16 +108,21 @@
         background: rgb(64, 92, 108);
       }
 
-      /* Branding at the bottom of the screen, now in a "box" */
+      /* Branding box at the bottom with a blur effect */
       .branding-box {
         position: absolute;
-        bottom: 20px;
+        bottom: 40px; /* Increased bottom space */
         left: 50%;
         transform: translateX(-50%);
         text-align: center;
         font-size: 1.1em;
         color: #555;
-        background: white;
+
+        /* Semi-transparent and blurred background */
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+
         padding: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
@@ -172,9 +181,7 @@
         <div id="playerInstructions">
           <div class="instructions-container">
             <div class="player1-instructions">Player 1: Press SPACE BAR</div>
-            <div class="player2-instructions">
-              Player 2: Click LEFT MOUSE BUTTON
-            </div>
+            <div class="player2-instructions">Player 2: Click MOUSE BUTTON</div>
           </div>
           <br />
         </div>
@@ -237,9 +244,7 @@
 
       function declareWinner(message, player) {
         winnerDisplay.textContent = message;
-        // Start the beep sequence and flashing
         playBeepSequence(5, player, function () {
-          // After the beep sequence finishes, wait 5 seconds before showing reset
           resetTimeoutId = setTimeout(() => {
             resetBtn.style.display = "inline-block";
             resetInstructions.style.display = "block";
@@ -257,7 +262,6 @@
         player1Indicator.style.opacity = "0";
         player2Indicator.style.opacity = "0";
 
-        // Clear the timeout if it's still pending
         if (resetTimeoutId) {
           clearTimeout(resetTimeoutId);
           resetTimeoutId = null;
