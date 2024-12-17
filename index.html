@@ -244,7 +244,7 @@
 
       function declareWinner(message, player) {
         winnerDisplay.textContent = message;
-        playBeepSequence(5, player, function () {
+        playBeepSequence(4, player, function () {
           resetTimeoutId = setTimeout(() => {
             resetBtn.style.display = "inline-block";
             resetInstructions.style.display = "block";
@@ -274,9 +274,9 @@
           return;
         }
 
-        const beepDuration = 0.05;
-        const silenceAfterBeep = 0.05;
-        const flashDuration = 0.2;
+        const beepDuration = 0.08;
+        const silenceAfterBeep = 0.04;
+        const flashDuration = 0.1;
 
         const audioContext = new (window.AudioContext ||
           window.webkitAudioContext)();
